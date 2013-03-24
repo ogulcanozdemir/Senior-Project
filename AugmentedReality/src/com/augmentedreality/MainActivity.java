@@ -2,21 +2,25 @@ package com.augmentedreality;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.util.Log;
+import android.view.Window;
 
 public class MainActivity extends Activity {
+	
+	public static final String TAG = "bitirme::MainActivity";
+	
+	public MainActivity() {
+		Log.i(TAG, "Instantiated new " + this.getClass());
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(new ARView(this));
+		
+		
+		//setContentView(R.layout.activity_main);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
 }
