@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
+		Native.loadLibs();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(new ARView(this));
 		

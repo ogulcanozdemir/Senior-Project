@@ -9,7 +9,7 @@ using namespace cv;
 
 extern "C" {
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARView_FindFeatures(JNIEnv* env, jobject, jint width, jint height, jbyteArray yuv, jintArray rgba)
+JNIEXPORT void JNICALL Java_com_augmentedreality_Native_FindFeatures(JNIEnv* env, jobject, jint width, jint height, jbyteArray yuv, jintArray rgba)
 {
 	jbyte* _yuv = env->GetByteArrayElements(yuv, 0);
 	jint* _rgba = env->GetIntArrayElements(rgba, 0);
