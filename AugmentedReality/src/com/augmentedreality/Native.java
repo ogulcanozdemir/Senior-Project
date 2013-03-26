@@ -7,7 +7,10 @@ public class Native {
 		System.loadLibrary("augmentedreality");
 	}
 	
-	public static native void FindFeatures(int width, int height, byte[] yuv, int[] rgba);
-	public static native void applyCanny(int width, int height, byte[] yuv, int[] rgba);
-	public static native void applySobel(int width, int height, byte[] yuv, int[] rgba);
+	public native void applyCanny(int width, int height, byte[] NV21FrameData, int[] pixels);
+	//public static native void FindFeatures(int width, int height, byte[] yuv, int[] rgba);
+	//public static native void applyCanny(int width, int height, byte[] yuv, int[] rgba);
+	//public static native void applySobel(int width, int height, byte[] yuv, int[] rgba);
+	
+	
 }
