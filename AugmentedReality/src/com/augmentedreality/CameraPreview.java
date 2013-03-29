@@ -40,6 +40,7 @@ public class CameraPreview implements SurfaceHolder.Callback, Camera.PreviewCall
 	public void onPreviewFrame(byte[] arg0, Camera arg1) {
 		if (imageFormat == ImageFormat.NV21) {
 			if (!bProcessing) {
+				pixels = new int[previewSizeWidth * previewSizeHeight];
 				frameData = arg0;
 				mHandler.post(processFrame);
 			}
@@ -89,6 +90,7 @@ public class CameraPreview implements SurfaceHolder.Callback, Camera.PreviewCall
 	// define of native functions
 	public static native void applyCanny(int width, int height, byte[] NV21FrameData, int[] pixels);
 	public static native void applySobel(int width, int height, byte[] NV21FrameData, int[] pixels);
+	public static native void detectMarkers(int width, int height, byte[] NV21FrameData, int[] pixels);
 	
 	static {
 		System.loadLibrary("opencv_java");
@@ -102,8 +104,9 @@ public class CameraPreview implements SurfaceHolder.Callback, Camera.PreviewCall
 			Log.i("frame processing", "processFrame runnable ");
 			bProcessing = true;
 			
-			applyCanny(previewSizeWidth, previewSizeHeight, frameData, pixels);
+			//applyCanny(previewSizeWidth, previewSizeHeight, frameData, pixels);
 			//applySobel(previewSizeWidth, previewSizeHeight, frameData, pixels);
+			detectMarkers(previewSizeWidth, previewSizeHeight, frameData, pixels);
 			
 			bitmap.setPixels(pixels, 0, previewSizeWidth, 0, 0, previewSizeWidth, previewSizeHeight);
 			myCameraPreview.setImageBitmap(bitmap);

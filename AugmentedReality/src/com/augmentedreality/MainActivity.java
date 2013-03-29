@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 public class MainActivity extends Activity {
 	
@@ -24,8 +25,8 @@ public class MainActivity extends Activity {
 	private CameraPreview camPreview;
 	private ImageView myCameraPreview = null;
 	private FrameLayout mainLayout;
-	private int previewSizeWidth = 1280;
-	private int previewSizeHeight = 720;
+	private int previewSizeWidth = 640;
+	private int previewSizeHeight = 480;
 	private int mode = 0;
 
 	public MainActivity() {
@@ -60,16 +61,21 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		myCameraPreview = new ImageView(this);
+		myCameraPreview.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		myCameraPreview.setScaleType(ScaleType.FIT_XY);
 		
 		SurfaceView camView = new SurfaceView(this);
+		camView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		
 		SurfaceHolder camHolder = camView.getHolder();
 		camPreview = new CameraPreview(previewSizeWidth, previewSizeHeight, myCameraPreview);
 		camHolder.addCallback(camPreview);
 		camHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		camHolder.setSizeFromLayout();
 		
 		mainLayout = (FrameLayout) findViewById(R.id.frameLayout);
-		mainLayout.addView(camView, new LayoutParams(previewSizeWidth, previewSizeHeight));
-		mainLayout.addView(myCameraPreview, new LayoutParams(previewSizeWidth, previewSizeHeight));
+		mainLayout.addView(camView, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		mainLayout.addView(myCameraPreview, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 	
 	protected void onPause() {
