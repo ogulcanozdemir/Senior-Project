@@ -2,7 +2,6 @@ package com.augmentedreality;
 
 import java.io.IOException;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;

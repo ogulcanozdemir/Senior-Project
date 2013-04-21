@@ -8,7 +8,11 @@
 using namespace std;
 using namespace cv;
 
+
+
 extern "C" {
+
+
 //JNIEXPORT void JNICALL Java_com_augmentedreality_Native_applyCanny(JNIEnv* env, jobject, jint width, jint height, jbyteArray NV21FrameData, jintArray outPixels);
 //JNIEXPORT void JNICALL Java_com_augmentedreality_Native_FindFeatures(JNIEnv* env, jobject, jint width, jint height, jbyteArray yuv, jintArray rgba);
 JNIEXPORT void JNICALL Java_com_augmentedreality_CameraPreview_applyCanny(JNIEnv* env, jobject, jint width, jint height, jbyteArray NV21FrameData, jintArray outPixels);
@@ -17,7 +21,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_CameraPreview_applySobel(JNIEnv
 Mat *mCanny = NULL;
 Mat *mSobel = NULL;
 
-/*
+
 JNIEXPORT void JNICALL Java_com_augmentedreality_Native_FindFeatures(JNIEnv* env, jobject, jint width, jint height, jbyteArray yuv, jintArray rgba)
 {
 	jbyte* _yuv = env->GetByteArrayElements(yuv, 0);
@@ -38,7 +42,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_Native_FindFeatures(JNIEnv* env
 	env->ReleaseIntArrayElements(rgba, _rgba, 0);
 	env->ReleaseByteArrayElements(yuv, _yuv, 0);
 }
-*/
+
 
 JNIEXPORT void JNICALL Java_com_augmentedreality_CameraPreview_applyCanny(JNIEnv* env, jobject, jint width, jint height, jbyteArray NV21FrameData, jintArray outPixels)
 {
@@ -93,31 +97,11 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_CameraPreview_detectMarkers(JNI
 
 	Mat mGray(height, width, CV_8UC1, (unsigned char *)pNV21FrameData);
 	Mat mResult(height, width, CV_8UC4, (unsigned char *)poutPixels);
-	Mat mThresh(height, width, CV_8UC1);
-	Mat mTemp(height, width, CV_8UC4);
-	Mat mTemp2(height, width, CV_8UC1);
 
-	IplImage srcImg = mGray;
-	IplImage threshImg = mThresh;
-	IplImage tempImg = mTemp;
-	IplImage temp2Img = mTemp2;
-	IplImage resultImg = mResult;
 
-	cvCvtColor(&srcImg, &tempImg, CV_GRAY2BGRA);
-	cvCvtColor(&tempImg, &temp2Img, CV_BGRA2GRAY);
-	//cvThreshold(&temp2Img, &threshImg, 100, 255, CV_THRESH_BINARY);
-	cvCanny(&srcImg, &threshImg, 80, 100, 3);
-
-	CvMemStorage *storage = cvCreateMemStorage(0);
-	CvSeq *contours = NULL;
-	cvFindContours(&threshImg, storage, &contours);
-	cvDrawContours(&resultImg, contours, cvScalarAll(255), cvScalarAll(255), 100);
 
 	env->ReleaseByteArrayElements(NV21FrameData, pNV21FrameData, 0);
 	env->ReleaseIntArrayElements(outPixels, poutPixels, 0);
-
-	cvClearMemStorage(storage);
-	cvReleaseMemStorage(&storage);
 }
 
 }
