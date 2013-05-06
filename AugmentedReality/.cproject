@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="com.android.toolchain.gcc.1887952359">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.android.toolchain.gcc.1887952359" moduleId="org.eclipse.cdt.core.settings" name="Default">
 				<macros>
-					<stringMacro name="OPENCVROOT" type="VALUE_TEXT" value="D:\Development\OpenCVAndroid\"/>
-					<stringMacro name="NDKROOT" type="VALUE_TEXT" value="D:\Development\android-ndk"/>
+					<stringMacro name="OPENCVROOT" type="VALUE_TEXT" value="/Users/oulcan/Documents/Development/OpenCVAndroid"/>
+					<stringMacro name="NDKROOT" type="VALUE_TEXT" value="/Users/oulcan/Documents/Development/android-ndk"/>
 				</macros>
 				<externalSettings>
 					<externalSetting/>
@@ -34,17 +36,16 @@
 							</builder>
 							<tool id="com.android.gcc.compiler.1789110038" name="Android GCC Compiler" superClass="com.android.gcc.compiler">
 								<option id="com.android.gcc.option.includePath.505509343" superClass="com.android.gcc.option.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${OPENCVROOT}\sdk\native\jni\include\&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}\sources\cxx-stl\gnu-libstdc++\libs\armeabi-v7a\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}\sources\cxx-stl\gnu-libstdc++\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}\platforms\android-9\arch-arm\usr\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}\sources\cxx-stl\gnu-libstdc++\4.6\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\Development\android-ndk\sources\cxx-stl\gnu-libstdc++\4.6&quot;"/>
+									<listOptionValue builtIn="false" value="/Users/oulcan/Documents/Development/android-ndk/platforms/android-9/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="/Users/oulcan/Documents/Development/OpenCVAndroid/sdk/native/jni/include"/>
+									<listOptionValue builtIn="false" value="/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
+									<listOptionValue builtIn="false" value="/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include"/>
 								</option>
 								<inputType id="com.android.gcc.inputType.213652851" superClass="com.android.gcc.inputType"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.android.toolchain.gcc.1887952359.462420249" name="AndroidManifest.xml" rcbsApplicability="disable" resourcePath="AndroidManifest.xml" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="jni"/>
 					</sourceEntries>

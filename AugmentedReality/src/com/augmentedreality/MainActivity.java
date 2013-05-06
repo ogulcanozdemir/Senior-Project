@@ -1,82 +1,110 @@
 package com.augmentedreality;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
+import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Mat;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements CvCameraViewListener2 {
 	
-	public static final String TAG = "bitirme::MainActivity";
+	public static final String 		TAG = "AugmentedReality:MainActivity";
 	
-	private CameraPreview camPreview;
-	private ImageView myCameraPreview = null;
-	private FrameLayout mainLayout;
-	private int previewSizeWidth = 640;
-	private int previewSizeHeight = 480;
-	private int mode = 0;
+	private Mat						mRgba;
+	private Mat						mGray;
+	private ARMarkerDetector		mMarkerDetector;
+	private CameraBridgeViewBase	mCameraView;
+	
+	private BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
+		@Override
+		public void onManagerConnected(int status) {
+			switch (status) {
+				case LoaderCallbackInterface.SUCCESS:
+				{
+					Log.i(TAG, "opencv loaded");
+					System.loadLibrary("augmentedreality");
+					System.loadLibrary("opencv_java");
+					
+					mMarkerDetector = new ARMarkerDetector();
+					
+					mCameraView.enableFpsMeter();
+					mCameraView.setMaxFrameSize(320, 240);
+					mCameraView.enableView();
+				} break;
 
+				default:
+				{
+					super.onManagerConnected(status);
+				} break;
+			}
+		}
+	};
+	
 	public MainActivity() {
 		Log.i(TAG, "Instantiated new " + this.getClass());
-		this.mode = 0;
 	}
 
-	public void setMode(int x) {
-		this.mode = x;
-	}
-	
-	public int getMode() {
-		return mode;
-	}
-	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-
-		//setContentView(R.layout.activity_main);
 		
-		/*
-		Native.loadLibs();
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(new ARView(this));
-		*/
-		
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.activity_main);
 		
-		myCameraPreview = new ImageView(this);
-		myCameraPreview.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		myCameraPreview.setScaleType(ScaleType.FIT_XY);
-		
-		SurfaceView camView = new SurfaceView(this);
-		camView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		
-		SurfaceHolder camHolder = camView.getHolder();
-		camPreview = new CameraPreview(previewSizeWidth, previewSizeHeight, myCameraPreview);
-		camHolder.addCallback(camPreview);
-		camHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		camHolder.setSizeFromLayout();
-		
-		mainLayout = (FrameLayout) findViewById(R.id.frameLayout);
-		mainLayout.addView(camView, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		mainLayout.addView(myCameraPreview, new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		mCameraView = (CameraBridgeViewBase)findViewById(R.id.surface_view);
+		mCameraView.setCvCameraViewListener(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (mCameraView != null) {
+			mCameraView.disableView();
+		}
 	}
 	
-	protected void onPause() {
-		if (camPreview != null) {
-			camPreview.onPause();
-		}
-		
-		super.onPause();
+	@Override 
+	public void onResume() {
+		super.onResume();
+		OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_5, this, mLoaderCallBack);
 	}
+	
+	@Override 
+	public void onDestroy() {
+		super.onDestroy();
+		mCameraView.disableView();
+	}
+	
+	@Override
+	public void onCameraViewStarted(int width, int height) {
+		mGray = new Mat();
+		mRgba = new Mat();
+	}
+
+	@Override
+	public void onCameraViewStopped() {
+		mGray.release();
+		mRgba.release();
+	}
+
+	@Override
+	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+		mRgba = inputFrame.rgba();
+		mGray = inputFrame.gray();
+
+		Mat output = new Mat(mGray.size(), mGray.type());
+		if (mMarkerDetector != null)
+			mMarkerDetector.detect(mGray, output);
+		
+		return output;
+	}
+	
 }
