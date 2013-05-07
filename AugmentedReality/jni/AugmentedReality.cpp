@@ -40,7 +40,16 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 		detectedMarkers[i].drawContour(outputMat, cvScalar(250, 0, 0));
 	}
 
+	// pose estimation
+	estimatePosition(detectedMarkers);
+
+	sort(detectedMarkers.begin(), detectedMarkers.end());
+
+	drawFrame();
+
 	// clearing vector for next frame
+	camMatrix.release();
+	distCoeff.release();
 	detectedMarkers.clear();
 	markerCorners2d.clear();
 	markerCorners3d.clear();
@@ -210,4 +219,33 @@ void recognizeMarkers(const cv::Mat& grayscale, MarkerVector& detectedMarkers)
 		}
 	}
 	detectedMarkers = goodMarkers;
+}
+
+void estimatePosition(MarkerVector& detectedMarkers)
+{
+	for (size_t i = 0; i < detectedMarkers.size(); i++) {
+
+		ARMarker& marker = detectedMarkers[i];
+
+		Mat Rvec;
+		Mat_<float> Tvec;
+		Mat raux, taux;
+
+		cv::solvePnP(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
+		raux.convertTo(Rvec, CV_32F);
+		taux.convertTo(Tvec, CV_32F);
+
+		Mat_<float> rotationMat(3,3);
+		cv::Rodrigues(Rvec, rotationMat);
+
+		for (int col = 0; col < 3; col++) {
+			for (int row = 0; row < 3; row++) {
+				marker.transformation.r().matrix[row][col] = rotationMat(row, col);
+			}
+
+			marker.transformation.t().data[col] = Tvec(col);
+		}
+
+		marker.transformation = marker.transformation.getInverted();
+	}
 }

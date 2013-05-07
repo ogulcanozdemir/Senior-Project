@@ -22,10 +22,8 @@ public:
 	const Matrix33& getIntrinsic() const;
 	const Vector4& getDistorsion() const;
 
-private:
-
 	Matrix33 m_intrinsic;
-	Vector3 m_distorsion;
+	Vector4 m_distorsion;
 };
 
 

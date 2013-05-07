@@ -9,7 +9,8 @@
 
 #include <ARMarker.hpp>
 #include <ARUtils.hpp>
-#include <ARCameraCalibration.hpp>
+#include <ARGraphics.h>
+#include <ARLocal.h>
 
 #ifndef AUGMENTEDREALITY_HPP_
 #define AUGMENTEDREALITY_HPP_
@@ -40,8 +41,6 @@ Mat canonicalMarkerImage;
 
 Mat camMatrix;
 Mat distCoeff;
-std::vector<Transformation> m_transformation;
-ARCameraCalibration calibration = ARCameraCalibration();
 
 //////////////////// Function Prototypes ///////////////////
 ////////////////////////////////////////////////////////////
@@ -59,6 +58,9 @@ void findCandidates(const ContoursVector& contours, MarkerVector& detectedMarker
 
 // recognize markers from grayscale image with detected markers
 void recognizeMarkers(const cv::Mat& grayscale, MarkerVector& detectedMarkers);
+
+// perform pose estimation to markers
+void estimatePosition(MarkerVector& detectedMarkers);
 
 //////////////////// JNI methods ///////////////////////////
 ////////////////////////////////////////////////////////////

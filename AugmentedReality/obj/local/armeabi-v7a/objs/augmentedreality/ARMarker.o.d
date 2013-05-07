@@ -46,6 +46,7 @@
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/valarray \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/openfabmap.hpp \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/set \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMarker.hpp:
@@ -139,5 +140,7 @@
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/openfabmap.hpp:
 
 /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/set:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h:

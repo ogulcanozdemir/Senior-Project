@@ -73,7 +73,19 @@
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/set \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMarker.hpp \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARGraphics.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARCameraCalibration.hpp \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES/gl.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES/glplatform.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/KHR/khrplatform.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES/glext.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2platform.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2ext.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/AugmentedReality.hpp:
 
@@ -222,3 +234,27 @@
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMarker.hpp:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARGraphics.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARCameraCalibration.hpp:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES/gl.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES/glplatform.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/KHR/khrplatform.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES/glext.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2platform.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2ext.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h:
