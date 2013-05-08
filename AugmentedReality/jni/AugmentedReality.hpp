@@ -29,7 +29,7 @@ typedef vector<ARMarker> MarkerVector;
 ///////////////////// Definitions //////////////////////////
 ////////////////////////////////////////////////////////////
 #define DEBUG 0
-#define LOG_TAG "AugmentedReality/native"
+//#define LOG_TAG "AugmentedReality/native"
 #define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__))
 
 //////////////////// Global variables //////////////////////
@@ -39,8 +39,9 @@ Size markerSize(100, 100);
 std::vector<cv::Point2f> markerCorners2d;
 Mat canonicalMarkerImage;
 
-Mat camMatrix;
-Mat distCoeff;
+Mat camMatrix = Mat(3, 3, CV_32F, const_cast<float*>(&calibration.getIntrinsic().data[0]));
+Mat distCoeff = Mat(4, 1, CV_32F, const_cast<float*>(&calibration.getDistorsion().data[0]));
+
 
 //////////////////// Function Prototypes ///////////////////
 ////////////////////////////////////////////////////////////

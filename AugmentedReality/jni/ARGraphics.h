@@ -87,6 +87,15 @@ void setFrameBuffer()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
+void updateBackground(cv::Mat& frame)
+{
+	setFrameBuffer();
+
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, frame.cols, frame.rows, 0, GL_BGRA_IMG, GL_UNSIGNED_BYTE, frame.data);
+}
+
 void drawFrame()
 {
 	LOGD("setframebuffer()");
@@ -95,6 +104,9 @@ void drawFrame()
 	drawBackground();
 	LOGD("drawAR()");
 	drawAR();
+
+	float image[framebufferWidth][framebufferHeight][4];
+	glReadPixels(0, 0, framebufferWidth, framebufferHeight, GL_RGBA4_OES, GL_UNSIGNED_BYTE, &image);
 }
 
 void drawBackground()
@@ -185,7 +197,6 @@ void buildProjectionMatrix(Matrix33& cameraMatrix, int height, int width, Matrix
 void drawAR()
 {
 	Matrix44 projectionMatrix;
-
 	buildProjectionMatrix(calibration.m_intrinsic, (int)framebufferWidth, (int)framebufferHeight, projectionMatrix);
 
 	glMatrixMode(GL_PROJECTION);

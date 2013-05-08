@@ -6,6 +6,8 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	Mat &inputMat 	=  *(Mat *)imageGray;
 	Mat &outputMat 	= *(Mat *)output;
 
+	updateBackground(inputMat);
+
 	// image binarization
 	Mat threshold(inputMat.size(), inputMat.type());
 	performThreshold(inputMat, threshold);
@@ -17,9 +19,6 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	// finding marker candidates in calculated contours
 	MarkerVector detectedMarkers;
 	findCandidates(contours, detectedMarkers);
-
-	Mat(3, 3, CV_32F, const_cast<float*>(&calibration.getIntrinsic().data[0])).copyTo(camMatrix);
-	Mat(4, 1, CV_32F, const_cast<float*>(&calibration.getDistorsion().data[0])).copyTo(distCoeff);
 
 	// markerCorners3d initialization
 	markerCorners3d.push_back(Point3f(-0.5f,-0.5f,0));
@@ -45,11 +44,15 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 
 	sort(detectedMarkers.begin(), detectedMarkers.end());
 
+	m_transformation.clear();
+	for (size_t i = 0; i < detectedMarkers.size(); i++)
+		m_transformation.push_back(detectedMarkers[i].transformation);
+
 	drawFrame();
 
-	// clearing vector for next frame
-	camMatrix.release();
-	distCoeff.release();
+	// clearing vectors for next frame
+	//camMatrix.release();
+	//distCoeff.release();
 	detectedMarkers.clear();
 	markerCorners2d.clear();
 	markerCorners3d.clear();
