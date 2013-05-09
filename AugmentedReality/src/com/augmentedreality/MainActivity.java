@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 					mMarkerDetector = new ARMarkerDetector();
 					
 					mCameraView.enableFpsMeter();
-					mCameraView.setMaxFrameSize(320, 240);
+					mCameraView.setMaxFrameSize(640, 480);
 					mCameraView.enableView();
 				} break;
 
@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		if (mMarkerDetector != null)
 			mMarkerDetector.detect(mGray, output);
 		
-		return output;
+		return mGray;
 	}
 	
 }

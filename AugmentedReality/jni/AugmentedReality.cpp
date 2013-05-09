@@ -6,6 +6,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	Mat &inputMat 	=  *(Mat *)imageGray;
 	Mat &outputMat 	= *(Mat *)output;
 
+	initView();
 	updateBackground(inputMat);
 
 	// image binarization
@@ -36,7 +37,8 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	recognizeMarkers(inputMat, detectedMarkers);
 	outputMat = inputMat.clone();
 	for (size_t i = 0; i < detectedMarkers.size(); i++) {
-		detectedMarkers[i].drawContour(outputMat, cvScalar(250, 0, 0));
+		//detectedMarkers[i].drawContour(outputMat, cvScalar(250, 0, 0));
+		detectedMarkers[i].drawContour(inputMat, cvScalar(250, 0, 0));
 	}
 
 	// pose estimation
@@ -48,7 +50,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	for (size_t i = 0; i < detectedMarkers.size(); i++)
 		m_transformation.push_back(detectedMarkers[i].transformation);
 
-	drawFrame();
+	drawFrame(inputMat);
 
 	// clearing vectors for next frame
 	//camMatrix.release();

@@ -11,9 +11,9 @@
 #include <ARCameraCalibration.hpp>
 
 std::vector<Transformation> m_transformation;
-ARCameraCalibration calibration = ARCameraCalibration(6.24860291e+02 * (320./176.),
-														6.24860291e+02 * (240./144.),
-														320 * 0.5f,
-														240 * 0.5);
+ARCameraCalibration calibration = ARCameraCalibration(6.24860291e+02 * (640./352.),
+														6.24860291e+02 * (480./288.),
+														640 * 0.5f,
+														480 * 0.5f);
 
 #endif /* ARLOCAL_H_ */
