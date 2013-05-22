@@ -3,7 +3,7 @@
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/AugmentedReality.hpp \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/jni.h \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/vector \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/features2d/features2d.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/types_c.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/assert.h \
@@ -45,12 +45,14 @@
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/operations.hpp \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/limits \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/mat.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui_c.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core_c.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/features2d/features2d.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/miniflann.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/defines.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/config.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/imgproc/imgproc.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/imgproc/types_c.h \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core_c.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/imgproc/imgproc_c.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/opencv.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/photo/photo.hpp \
@@ -64,13 +66,50 @@
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/calib3d/calib3d.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/ml/ml.hpp \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui_c.h \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/contrib.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/retina.hpp \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/valarray \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/openfabmap.hpp \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/set \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv/cv.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/flann.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/flann_base.hpp \
+ /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/cassert \
+ /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/cstdio \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/general.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/defines.h \
+ /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/stdexcept \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/matrix.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/params.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/any.h \
+ /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/typeinfo \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/saving.h \
+ /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/cstring \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/nn_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/result_set.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/all_indices.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/kdtree_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/dynamic_bitset.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/dist.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/heap.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/allocator.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/random.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/kdtree_single_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/kmeans_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/logger.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/composite_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/linear_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/hierarchical_clustering_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/lsh_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/lsh_table.h \
+ /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iomanip \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/autotuned_index.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/ground_truth.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/index_testing.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/timer.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/sampling.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/legacy/compat.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/internal.hpp \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMarker.hpp \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARUtils.hpp \
@@ -93,7 +132,7 @@
 
 /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/vector:
 
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/features2d/features2d.hpp:
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core.hpp:
 
@@ -177,6 +216,12 @@
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/mat.hpp:
 
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui_c.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core_c.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/features2d/features2d.hpp:
+
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/miniflann.hpp:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/defines.h:
@@ -186,8 +231,6 @@
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/imgproc/imgproc.hpp:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/imgproc/types_c.h:
-
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core_c.h:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/imgproc/imgproc_c.h:
 
@@ -215,10 +258,6 @@
 
 /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iostream:
 
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui_c.h:
-
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp:
-
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/contrib.hpp:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/retina.hpp:
@@ -228,6 +267,84 @@
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/contrib/openfabmap.hpp:
 
 /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/set:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv/cv.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/flann.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/flann_base.hpp:
+
+/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/cassert:
+
+/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/cstdio:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/general.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/defines.h:
+
+/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/stdexcept:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/matrix.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/params.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/any.h:
+
+/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/typeinfo:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/saving.h:
+
+/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/cstring:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/nn_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/result_set.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/all_indices.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/kdtree_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/dynamic_bitset.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/dist.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/heap.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/allocator.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/random.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/kdtree_single_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/kmeans_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/logger.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/composite_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/linear_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/hierarchical_clustering_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/lsh_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/lsh_table.h:
+
+/Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/iomanip:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/autotuned_index.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/ground_truth.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/index_testing.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/timer.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/flann/sampling.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/legacy/compat.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/internal.hpp:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/log.h:
 

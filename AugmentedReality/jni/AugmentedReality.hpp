@@ -1,10 +1,12 @@
 #include <jni.h>
 #include <vector>
+#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/imgproc/imgproc_c.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
+#include <opencv/cv.h>
 #include <android/log.h>
 
 #include <ARMarker.hpp>

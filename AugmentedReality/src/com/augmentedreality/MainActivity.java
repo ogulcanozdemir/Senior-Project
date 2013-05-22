@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity implements CvCameraViewListener2 {
-	
+
 	public static final String 		TAG = "AugmentedReality:MainActivity";
 	
 	private Mat						mRgba;
@@ -33,8 +33,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 					System.loadLibrary("opencv_java");
 					
 					mMarkerDetector = new ARMarkerDetector();
-					
 					mCameraView.enableFpsMeter();
+					mCameraView.setKeepScreenOn(true);
 					mCameraView.setMaxFrameSize(640, 480);
 					mCameraView.enableView();
 				} break;
@@ -106,5 +106,4 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		
 		return mGray;
 	}
-	
 }
