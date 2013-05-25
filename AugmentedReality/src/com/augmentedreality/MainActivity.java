@@ -8,9 +8,13 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.util.Log;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity implements CvCameraViewListener2 {
@@ -21,6 +25,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 	private Mat						mGray;
 	private ARMarkerDetector		mMarkerDetector;
 	private CameraBridgeViewBase	mCameraView;
+	private GLSurfaceView 			view;
 	
 	private BaseLoaderCallback mLoaderCallBack = new BaseLoaderCallback(this) {
 		@Override
@@ -29,8 +34,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 				case LoaderCallbackInterface.SUCCESS:
 				{
 					Log.i(TAG, "opencv loaded");
-					System.loadLibrary("augmentedreality");
 					System.loadLibrary("opencv_java");
+					System.loadLibrary("augmentedreality");
 					
 					mMarkerDetector = new ARMarkerDetector();
 					mCameraView.enableFpsMeter();
@@ -56,9 +61,22 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setContentView(R.layout.activity_main);
 		
+		System.loadLibrary("opencv_java");
+		System.loadLibrary("augmentedreality");
+		
+		view = new GLSurfaceView(this);
+		//view.setEGLContextClientVersion(2);
+		view.setRenderer(new ARRenderer());		
+		view.setZOrderMediaOverlay(false);
+		view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		
+		setContentView(R.layout.activity_main);
+		addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+	
 		mCameraView = (CameraBridgeViewBase)findViewById(R.id.surface_view);
 		mCameraView.setCvCameraViewListener(this);
 	}
@@ -68,6 +86,10 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		super.onPause();
 		if (mCameraView != null) {
 			mCameraView.disableView();
+		}
+		
+		if (view != null) {
+			view.onPause();
 		}
 	}
 	

@@ -34,6 +34,10 @@ typedef vector<ARMarker> MarkerVector;
 //#define LOG_TAG "AugmentedReality/native"
 #define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__))
 
+#define FOCAL_LENGTH 566.3732637783295
+#define CUBE_SIZE 10
+
+
 //////////////////// Global variables //////////////////////
 ////////////////////////////////////////////////////////////
 std::vector<cv::Point3f> markerCorners3d;
@@ -70,6 +74,9 @@ void estimatePosition(MarkerVector& detectedMarkers);
 extern "C" {
 #endif
 
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnSurfaceCreated(JNIEnv* env, jclass);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnSurfaceChanged(JNIEnv* env, jclass, jint, jint);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnDrawFrame(JNIEnv* env, jclass);
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(JNIEnv *, jclass, jlong, jlong);
 
 #ifdef __cplusplus

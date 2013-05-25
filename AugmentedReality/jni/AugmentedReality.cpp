@@ -1,7 +1,23 @@
 #include <AugmentedReality.hpp>
 
-#define FOCAL_LENGTH 250
-#define CUBE_SIZE 10
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnSurfaceCreated(JNIEnv* env, jclass)
+{
+	initView();
+	LOGD("opengl version:");
+}
+
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnSurfaceChanged(JNIEnv* env, jclass, jint w, jint h)
+{
+	glViewport(0, 0, w, h);
+	//updateBackground();
+	//framebufferWidth = w;
+	//framebufferHeight = h;
+}
+
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnDrawFrame(JNIEnv* env, jclass)
+{
+	drawFrame();
+}
 
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(
 		JNIEnv *jenv, jclass, jlong imageGray, jlong output) {
@@ -42,153 +58,37 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 		detectedMarkers[i].drawContour(inputMat, cvScalar(250, 0, 0));
 	}
 
+	// pose estimation
+	estimatePosition(detectedMarkers);
+
+	sort(detectedMarkers.begin(), detectedMarkers.end());
+
 	if (detectedMarkers.size() != 0) {
-		CvPOSITObject *positObject;
 
-		vector<CvPoint3D32f> modelPoints;
-		modelPoints.push_back(cvPoint3D32f(0.0f, 0.0f, 0.0f));
-		modelPoints.push_back(cvPoint3D32f(0.0f, 0.0f, CUBE_SIZE));
-		modelPoints.push_back(cvPoint3D32f(CUBE_SIZE, 0.0f, 0.0f));
-		modelPoints.push_back(cvPoint3D32f(0.0f, CUBE_SIZE, 0.0f));
-		LOGD("debug-1");
-
-
-		vector<CvPoint2D32f> imagePoints;
-		imagePoints.push_back(
-				cvPoint2D32f(detectedMarkers[0].points[0].x,
-						detectedMarkers[0].points[0].y));
-		imagePoints.push_back(
-				cvPoint2D32f(detectedMarkers[0].points[1].x,
-						detectedMarkers[0].points[2].y));
-		imagePoints.push_back(
-				cvPoint2D32f(detectedMarkers[0].points[3].x,
-						detectedMarkers[0].points[3].y));
-		imagePoints.push_back(
-				cvPoint2D32f(detectedMarkers[0].points[4].x,
-						detectedMarkers[0].points[4].y));
-
-		LOGD("debug");
-		positObject = cvCreatePOSITObject(&modelPoints[0],
-				(int) modelPoints.size());
-		LOGD("debug2");
-		CvMatr32f rotation_matrix = new float[9];
-		LOGD("debug3");
-		CvVect32f translation_vector = new float[3];
-		LOGD("debug4");
-		CvTermCriteria criteria = cvTermCriteria(
-				CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 100, 1.0e-4f);
-		LOGD("debug5");
-		cvPOSIT(positObject, &imagePoints[0], FOCAL_LENGTH, criteria,
-				rotation_matrix, translation_vector);
-		LOGD("debug6");
-		LOGD("source model points...");
-		for (size_t p = 0; p < modelPoints.size(); p++)
-			LOGD(
-					"%f , %f , %f", modelPoints[p].x, modelPoints[p].y, modelPoints[p].z);
-
-		LOGD("source image points...");
-		for (size_t p = 0; p < imagePoints.size(); p++)
-			LOGD("%f , %f , %f", imagePoints[p].x, imagePoints[p].y);
-
-		LOGD("estimated position...");
-		for (size_t p = 0; p < 3; p++)
-			LOGD(
-					"%f , %f , %f", rotation_matrix[p * 3], rotation_matrix[p * 3 + 1], rotation_matrix[p * 3 + 2]);
-
-		LOGD("estimated translation...");
+		LOGD("rotation matrix.....");
 		LOGD(
-				"%f , %f , %f", translation_vector[0], translation_vector[1], translation_vector[2]);
+				"%f - %f - %f", detectedMarkers[0].transformation.r().matrix[0][0], detectedMarkers[0].transformation.r().matrix[0][1], detectedMarkers[0].transformation.r().matrix[0][2]);
+		LOGD(
+				"%f - %f - %f", detectedMarkers[0].transformation.r().matrix[1][0], detectedMarkers[0].transformation.r().matrix[1][1], detectedMarkers[0].transformation.r().matrix[1][2]);
+		LOGD(
+				"%f - %f - %f", detectedMarkers[0].transformation.r().matrix[2][0], detectedMarkers[0].transformation.r().matrix[2][1], detectedMarkers[0].transformation.r().matrix[2][2]);
 
-		vector<CvPoint2D32f> projectedPoints;
-		for (size_t p = 0; p < modelPoints.size(); p++) {
-			CvPoint3D32f point3D;
-			point3D.x = rotation_matrix[0] * modelPoints[p].x
-					+ rotation_matrix[1] * modelPoints[p].y
-					+ rotation_matrix[2] * modelPoints[p].z
-					+ translation_vector[0];
+		LOGD("translation matrix...");
+		LOGD(
+				"%f - %f - %f", detectedMarkers[0].transformation.t().data[0], detectedMarkers[0].transformation.t().data[1], detectedMarkers[0].transformation.t().data[2]);
 
-			point3D.y = rotation_matrix[3] * modelPoints[p].x
-					+ rotation_matrix[4] * modelPoints[p].y
-					+ rotation_matrix[5] * modelPoints[p].z
-					+ translation_vector[1];
-
-			point3D.z = rotation_matrix[6] * modelPoints[p].x
-					+ rotation_matrix[7] * modelPoints[p].y
-					+ rotation_matrix[8] * modelPoints[p].z
-					+ translation_vector[2];
-
-			CvPoint2D32f point2D = cvPoint2D32f(0.0, 0.0);
-			if (point3D.z != 0) {
-				point2D.x = FOCAL_LENGTH * point3D.x / point3D.z;
-				point2D.y = FOCAL_LENGTH * point3D.y / point3D.z;
-			}
-			projectedPoints.push_back(point2D);
-		}
-
-		int centreX = inputMat.cols / 2;
-		int centreY = inputMat.rows / 2;
-		for (size_t p = 0; p < modelPoints.size(); p++)
-			circle(inputMat,
-					cvPoint(centreX + (int) imagePoints[p].x,
-							centreY - (int) imagePoints[p].y), 8,
-					CV_RGB(255, 0, 0));
-
-		line(inputMat,
-				cvPoint(centreX + (int) projectedPoints[0].x,
-						centreY - (int) projectedPoints[0].y),
-				cvPoint(centreX + (int) projectedPoints[1].x,
-						centreY - (int) projectedPoints[1].y),
-				CV_RGB(0, 0, 255), 2);
-		line(inputMat,
-				cvPoint(centreX + (int) projectedPoints[0].x,
-						centreY - (int) projectedPoints[0].y),
-				cvPoint(centreX + (int) projectedPoints[2].x,
-						centreY - (int) projectedPoints[2].y),
-				CV_RGB(255, 0, 0), 2);
-		line(inputMat,
-				cvPoint(centreX + (int) projectedPoints[0].x,
-						centreY - (int) projectedPoints[0].y),
-				cvPoint(centreX + (int) projectedPoints[3].x,
-						centreY - (int) projectedPoints[3].y),
-				CV_RGB(0, 0, 255), 2);
-
-		LOGD("estimated image points...");
-		for (size_t p = 0; p < projectedPoints.size(); p++) {
-			circle(inputMat,
-					cvPoint(centreX + (int) projectedPoints[p].x,
-							centreY - (int) projectedPoints[p].y), 3,
-					CV_RGB(255, 255, 255), -1);
-			LOGD("%f - %f", projectedPoints[p].x, projectedPoints[p].y);
-		}
-
-		delete rotation_matrix;
-		delete translation_vector;
-		cvReleasePOSITObject(&positObject);
-		modelPoints.clear();
-		imagePoints.clear();
-		projectedPoints.clear();
 	}
 
-	/*
-	 // pose estimation
-	 estimatePosition(detectedMarkers);
+	m_transformation.clear();
+	for (size_t i = 0; i < detectedMarkers.size(); i++)
+		m_transformation.push_back(detectedMarkers[i].transformation);
 
-	 sort(detectedMarkers.begin(), detectedMarkers.end());
-
-	 m_transformation.clear();
-	 for (size_t i = 0; i < detectedMarkers.size(); i++)
-	 m_transformation.push_back(detectedMarkers[i].transformation);
-
-	 drawFrame(inputMat);
-	 */
 	// clearing vectors for next frame
-	//camMatrix.release();
-	//distCoeff.release();
 	detectedMarkers.clear();
 	markerCorners2d.clear();
 	markerCorners3d.clear();
 
-	LOGD("Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect exit");
+	LOGD( "Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect exit");
 }
 
 void performThreshold(const Mat& grayscale, Mat& threshold) {
