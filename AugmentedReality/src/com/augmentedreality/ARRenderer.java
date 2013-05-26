@@ -1,67 +1,64 @@
 package com.augmentedreality;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.opengl.GLSurfaceView.Renderer;
-import android.opengl.GLU;
+import android.content.Context;
+import android.opengl.GLSurfaceView;
 
-public class ARRenderer implements Renderer {
+public class ARRenderer implements GLSurfaceView.Renderer {
+
+	public float mAngleX;
+	public float mAngleY;
+	private Context mContext;
 	
-	private ARCube mCube = new ARCube();
-	private float mCubeRotation;
-
+	public ARRenderer(Context pContext) {
+		super();
+		mContext = pContext;
+	}
+	
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		nativeOnDrawFrame();
-		
-		/*
-		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-		gl.glLoadIdentity();
-		
-		gl.glTranslatef(0.0f, 0.0f, -10.0f);
-		gl.glRotatef(mCubeRotation, 1.0f, 1.0f, 1.0f);
-		
-		mCube.draw(gl);
-		gl.glLoadIdentity();
-		
-		mCubeRotation -= 0.15f;
-		*/
+		nativeDrawGraphics(mAngleX, mAngleY);
 	}
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-		nativeOnSurfaceChanged(width, height);
-		
-		/*
-		gl.glViewport(0, 0, width, height);
-		gl.glMatrixMode(GL10.GL_PROJECTION);
-		gl.glLoadIdentity();
-		GLU.gluPerspective(gl, 45.0f, (float)width / (float)height, 0.1f, 100.0f);
-		gl.glViewport(0, 0, width, height);
-		
-		gl.glMatrixMode(GL10.GL_MODELVIEW);
-		gl.glLoadIdentity();
-		*/
+		nativeSurfaceChanged(width, height);
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		nativeOnSurfaceCreated();
-		
-		/*
-		gl.glDisable(GL10.GL_DITHER);
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		gl.glEnable(GL10.GL_CULL_FACE);
-		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glEnable(GL10.GL_DEPTH_TEST);
-		
-		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-		*/
+		String vertexShaderStr = LoadShaderStr(mContext, R.raw.vshader);
+		String fragmentShaderStr = LoadShaderStr(mContext, R.raw.fshader);
+		nativeInitGL20(vertexShaderStr, fragmentShaderStr);
 	}
 	
-	private static native void nativeOnSurfaceCreated();
-	private static native void nativeOnSurfaceChanged(int w, int h);
-	private static native void nativeOnDrawFrame();
+	private String LoadShaderStr(Context context, int resId) {
+		StringBuffer strBuf = new StringBuffer();
+		try {
+			InputStream inputStream = context.getResources().openRawResource(resId);
+			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+			String read = in.readLine();
+			while (read != null) {
+				strBuf.append(read + "\n");
+				read = in.readLine();
+			}
+			
+			strBuf.deleteCharAt(strBuf.length() - 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return strBuf.toString();
+	}
+	
+	private static native void nativeInitGL20(String vertexShaderStr, String fragmentShaderStr);	
+	private static native void nativeSurfaceChanged(int width, int height);
+	private static native void nativeDrawGraphics(float angleX, float angleY);
 	
 }

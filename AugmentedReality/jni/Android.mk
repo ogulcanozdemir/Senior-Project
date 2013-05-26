@@ -12,7 +12,7 @@ LOCAL_STATIC_LIBRARIES :=  opencv_features2d opencv_imgproc opencv_core opencv_h
 
 LOCAL_MODULE    := augmentedreality
 LOCAL_SHARED_LIBRARIES := opencv-prebuilt
-LOCAL_SRC_FILES := AugmentedReality.cpp ARMarker.cpp ARUtils.cpp ARCameraCalibration.cpp
+LOCAL_SRC_FILES := AugmentedReality.cpp ARMarker.cpp ARUtils.cpp ARCameraCalibration.cpp ARCube.cpp ARMatrix.cpp
 LOCAL_LDLIBS 	+= -llog -ldl -landroid -lGLESv2 -lGLESv1_CM
 
 LOCAL_ALLOW_UNDEFINED_SYMBOLS := true

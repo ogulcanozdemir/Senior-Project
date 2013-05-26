@@ -3,14 +3,10 @@
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/AugmentedReality.hpp \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/jni.h \
  /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/vector \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core.hpp \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/types_c.h \
- /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/assert.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/stdlib.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/api-level.h \
- /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/stdlib.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/string.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/malloc.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/alloca.h \
@@ -28,6 +24,10 @@
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/machine/kernel.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/sysmacros.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/memory.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/types_c.h \
+ /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/assert.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/math.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/limits.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/limits.h \
@@ -124,7 +124,9 @@
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2platform.h \
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2ext.h \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARCube.hpp \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMatrix.h
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/AugmentedReality.hpp:
 
@@ -132,21 +134,13 @@
 
 /Users/oulcan/Documents/Development/android-ndk/sources/cxx-stl/gnu-libstdc++/4.6/include/vector:
 
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp:
-
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core.hpp:
-
-/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/types_c.h:
-
-/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/assert.h:
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/stdlib.h:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/cdefs.h:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/android/api-level.h:
-
-/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/stdlib.h:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/string.h:
 
@@ -181,6 +175,14 @@
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/sys/sysmacros.h:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/memory.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/highgui/highgui.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/core.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/../../../../OpenCVAndroid/sdk/native/jni/include/opencv2/core/types_c.h:
+
+/Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/assert.h:
 
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/math.h:
 
@@ -375,3 +377,7 @@
 /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2ext.h:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARCube.hpp:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMatrix.h:

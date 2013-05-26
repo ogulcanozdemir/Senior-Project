@@ -68,11 +68,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		System.loadLibrary("opencv_java");
 		System.loadLibrary("augmentedreality");
 		
-		view = new GLSurfaceView(this);
-		//view.setEGLContextClientVersion(2);
-		view.setRenderer(new ARRenderer());		
-		view.setZOrderMediaOverlay(false);
-		view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		view = new ARSurfaceView(this);
+		view.setZOrderOnTop(true);
 		
 		setContentView(R.layout.activity_main);
 		addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

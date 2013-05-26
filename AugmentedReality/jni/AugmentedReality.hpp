@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <vector>
+#include <stdlib.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -13,6 +14,8 @@
 #include <ARUtils.hpp>
 #include <ARGraphics.h>
 #include <ARLocal.h>
+#include <ARCube.hpp>
+#include <ARMatrix.h>
 
 #ifndef AUGMENTEDREALITY_HPP_
 #define AUGMENTEDREALITY_HPP_
@@ -48,6 +51,7 @@ Mat canonicalMarkerImage;
 Mat camMatrix = Mat(3, 3, CV_32F, const_cast<float*>(&calibration.getIntrinsic().data[0]));
 Mat distCoeff = Mat(4, 1, CV_32F, const_cast<float*>(&calibration.getDistorsion().data[0]));
 
+float mCubeRotation;
 
 //////////////////// Function Prototypes ///////////////////
 ////////////////////////////////////////////////////////////
@@ -74,10 +78,11 @@ void estimatePosition(MarkerVector& detectedMarkers);
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnSurfaceCreated(JNIEnv* env, jclass);
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnSurfaceChanged(JNIEnv* env, jclass, jint, jint);
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeOnDrawFrame(JNIEnv* env, jclass);
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(JNIEnv *, jclass, jlong, jlong);
+
+void nativeInitGL20(JNIEnv* en, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr);
+void nativeDrawGraphics(JNIEnv* en, jclass clazz, float pAngleX, float pAngleY);
+void nativeSurfaceChanged(JNIEnv* en, jclass clazz, int width, int height);
 
 #ifdef __cplusplus
 }
