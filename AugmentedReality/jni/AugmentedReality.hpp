@@ -78,7 +78,7 @@ void estimatePosition(MarkerVector& detectedMarkers);
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(JNIEnv *, jclass, jlong, jlong);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(JNIEnv *, jclass, jlong, jlong, jlong);
 
 void nativeInitGL20(JNIEnv* en, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr);
 void nativeDrawGraphics(JNIEnv* en, jclass clazz, float pAngleX, float pAngleY);

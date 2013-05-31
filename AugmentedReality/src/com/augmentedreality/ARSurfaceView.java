@@ -22,6 +22,7 @@ public class ARSurfaceView extends GLSurfaceView {
 		this.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 	
+	
 	public boolean onTouchEvent(final MotionEvent event) {
 		float x = event.getX();
 		float y = event.getY();

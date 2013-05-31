@@ -8,10 +8,10 @@ public class ARMarkerDetector {
 		
 	}
 	
-	public void detect(Mat imageGray, Mat output) {
-		nativeMarkerDetect(imageGray.getNativeObjAddr(), output.getNativeObjAddr());
+	public void detect(Mat imageRgba, Mat imageGray, Mat output) {
+		nativeMarkerDetect(imageRgba.getNativeObjAddr(), imageGray.getNativeObjAddr(), output.getNativeObjAddr());
 	}
 	
-	private static native void nativeMarkerDetect(long inputImage, long output);
+	private static native void nativeMarkerDetect(long rgbaImage, long inputImage, long output);
 	
 }

@@ -16,8 +16,8 @@
 #define LOG_TAG "ARGraphics"
 #define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__))
 
-GLint framebufferWidth = 512;
-GLint framebufferHeight = 512;
+GLint framebufferWidth = 640;
+GLint framebufferHeight = 480;
 
 GLuint defaultFramebuffer;
 GLuint colorRenderbuffer;
