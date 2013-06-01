@@ -11,155 +11,61 @@
 #include <GLES/glext.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#include <GLES2/gl2platform.h>
+#include <GLES/glplatform.h>
 
 #define DEBUG 0
 #define LOG_TAG "ARGraphics"
 #define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__))
 
-GLint framebufferWidth = 640;
-GLint framebufferHeight = 480;
+GLuint m_backgroundTextureId;
+GLuint defaultFrameBuffer, colorRenderBuffer, depthRenderBuffer;
 
-GLuint defaultFramebuffer;
-GLuint colorRenderbuffer;
-GLuint depthRenderbuffer;
+GLint width = 640;
+GLint height = 480;
 
-GLuint backgroundTextureId;
+GLfloat w = (GLfloat) 640;
+GLfloat h = (GLfloat) 480;
 
-void createFrameBuffer();
-void deleteFrameBuffer();
-void setFrameBuffer();
-void drawFrame();
-void initView();
-void drawBackground(int width, int height);
-void buildProjectionMatrix(int height, int width, Matrix44& projectionMatrix);
-void drawAR();
-void updateBackground(cv::Mat& inputMat);
+Matrix44 projectionMatrix;
 
-
-void createFrameBuffer()
+void drawBackground()
 {
-	glGenFramebuffers(1, &defaultFramebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER_OES, defaultFramebuffer);
-
-	glGenRenderbuffers(1, &colorRenderbuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER_OES, colorRenderbuffer);
-	glGetRenderbufferParameteriv(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &framebufferWidth);
-	glGetRenderbufferParameteriv(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &framebufferHeight);
-
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, colorRenderbuffer);
-
-	glGenRenderbuffers(1, &depthRenderbuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER_OES, depthRenderbuffer);
-
-	glRenderbufferStorage(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, framebufferWidth, framebufferHeight);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderbuffer);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES)
-		LOGD("failed to make complete frame buffer");
-
-}
-
-void deleteFrameBuffer()
-{
-	if (defaultFramebuffer) {
-		glDeleteFramebuffers(1, &defaultFramebuffer);
-		defaultFramebuffer = 0;
-	}
-
-	if (colorRenderbuffer) {
-		glDeleteRenderbuffers(1, &colorRenderbuffer);
-		colorRenderbuffer = 0;
-	}
-
-	if (depthRenderbuffer) {
-		glDeleteRenderbuffers(1, &defaultFramebuffer);
-		depthRenderbuffer = 0;
-	}
-}
-
-void setFrameBuffer()
-{
-	if (!defaultFramebuffer)
-		createFrameBuffer();
-
-	glBindFramebuffer(GL_FRAMEBUFFER_OES, defaultFramebuffer);
-	glViewport(0, 0, framebufferWidth, framebufferHeight);
-
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-}
-
-void initView()
-{
-	glGenTextures(1, &backgroundTextureId);
-	glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glEnable(GL_DEPTH_TEST);
-}
-
-void updateBackground(cv::Mat& inputMat)
-{
-	setFrameBuffer();
-
-	glPixelStorei(GL_PACK_ALIGNMENT, 1);
-	glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA4_OES, inputMat.cols, inputMat.rows, 0, GL_BGRA_IMG, GL_UNSIGNED_BYTE, inputMat.data);
-}
-
-void drawFrame()
-{
-	LOGD("setframebuffer()");
-	setFrameBuffer();
-	LOGD("drawbackground()");
-	drawBackground(framebufferWidth, framebufferHeight);
-	LOGD("drawAR()");
-	drawAR();
-}
-
-void drawBackground(int width, int height)
-{
-	GLfloat w = (GLfloat)width;
-	GLfloat h = (GLfloat)height;
-
 	const GLfloat squareVertices[] =
 	{
-		0, 0,
-		w, 0,
-		0, h,
-		w, h
+			0, 0,
+			w, 0,
+			0, h,
+			w, h
 	};
 
 	static const GLfloat textureVertices[] =
 	{
-		1, 0,
-		1, 1,
-		0, 0,
-		0, 1
+			1, 0,
+			1, 1,
+			0, 0,
+			0, 1
 	};
 
 	static const GLfloat proj[] =
 	{
-		0, -2.f/w, 0, 0,
-		-2.f/h, 0, 0, 0,
-		0, 0, 1, 0,
-		1, 1, 0, 1
+			0, -2.f/w, 0, 0,
+			-2.f/h, 0, 0, 0,
+			0, 0, 1, 0,
+			1, 1, 0, 1
 	};
 
-	glMatrixMode(GL_PROJECTION_MATRIX_FLOAT_AS_INT_BITS_OES);
+	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(proj);
 
-	glMatrixMode(GL_MODELVIEW_MATRIX_FLOAT_AS_INT_BITS_OES);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glDepthMask(GL_FALSE);
+	glDepthMask(FALSE);
 	glDisable(GL_COLOR_MATERIAL);
 
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, backgroundTextureId);
+	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 
 	glVertexPointer(2, GL_FLOAT, 0, squareVertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -167,14 +73,53 @@ void drawBackground(int width, int height)
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glColor4f(1, 1, 1, 1);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0 , 4);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisable(GL_TEXTURE_2D);
 }
 
-void buildProjectionMatrix(int height, int width, Matrix44& projectionMatrix)
+void createFrameBuffer()
+{
+	if (!defaultFrameBuffer) {
+		glGenFramebuffers(1, &defaultFrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER_OES, defaultFrameBuffer);
+
+		glGenRenderbuffers(1, &colorRenderBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER_OES, colorRenderBuffer);
+
+		glGetRenderbufferParameteriv(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &width);
+		glGetRenderbufferParameteriv(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &height);
+
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, colorRenderBuffer);
+
+		glGenRenderbuffers(1, &depthRenderBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER_OES, depthRenderBuffer);
+
+		glRenderbufferStorage(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, width, height);
+
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderBuffer);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES)
+			LOGD("failed to make complete framebuffer %f", glCheckFramebufferStatus(GL_FRAMEBUFFER_OES));
+	}
+}
+
+void setFrameBuffer()
+{
+	/*
+	if (!defaultFrameBuffer)
+		createFrameBuffer();
+
+	glBindFramebuffer(GL_FRAMEBUFFER_OES, defaultFrameBuffer);
+	*/
+	glViewport(0, 0, width, height);
+
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+}
+
+void buildProjectionMatrix(ARCameraCalibration calibration, int width, int height, Matrix44& projectionMatrix)
 {
 	float near = 0.01;
 	float far = 100;
@@ -183,11 +128,6 @@ void buildProjectionMatrix(int height, int width, Matrix44& projectionMatrix)
 	float f_y = calibration.m_intrinsic.matrix[1][1];
 	float c_x = calibration.m_intrinsic.matrix[0][2];
 	float c_y = calibration.m_intrinsic.matrix[1][2];
-
-	LOGD("%f - %f - %f - %f", calibration.m_intrinsic.matrix[0][0],
-			calibration.m_intrinsic.matrix[1][1],
-			calibration.m_intrinsic.matrix[0][2],
-			calibration.m_intrinsic.matrix[1][2]);
 
 	projectionMatrix.data[0] = -2.0 * f_x / width;
 	projectionMatrix.data[1] = 0.0;
@@ -212,16 +152,13 @@ void buildProjectionMatrix(int height, int width, Matrix44& projectionMatrix)
 
 void drawAR()
 {
-	Matrix44 projectionMatrix;
-	buildProjectionMatrix(framebufferWidth, framebufferHeight, projectionMatrix);
-
-	glMatrixMode(GL_PROJECTION_MATRIX_FLOAT_AS_INT_BITS_OES);
+	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(projectionMatrix.data);
 
-	glMatrixMode(GL_MODELVIEW_MATRIX_FLOAT_AS_INT_BITS_OES);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glDepthMask(GL_TRUE);
+	glDepthMask(TRUE);
 	glEnable(GL_DEPTH_TEST);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -235,29 +172,31 @@ void drawAR()
 	float lineZ[] = {0, 0, 0, 0, 0, 1};
 
 	const GLfloat squareVertices[] = {
-		-0.5f, -0.5f,
-		0.5f, -0.5f,
-		-0.5f, 0.5f,
-		0.5f, 0.5f
+			-0.5f, -0.5f,
+			 0.5f, -0.5f,
+			-0.5f,  0.5f,
+			 0.5f,  0.5f
 	};
 
 	const GLubyte squareColors[] = {
-			255, 255, 0, 255,
-			0, 255, 255, 255,
-			0,   0,   0,   0,
-			255, 0, 255, 255
+			255, 255,   0, 255,
+			  0, 255, 255, 255,
+			  0,   0,   0,   0,
+			255,   0, 255, 255
 	};
 
+	for (size_t transformationIdx = 0; transformationIdx < m_transformation.size(); transformationIdx++) {
+		const Transformation& trans = m_transformation[transformationIdx];
 
+		Matrix44 glMatrix = trans.getMat44();
 
-	for (size_t transIdx = 0; transIdx < m_transformation.size(); transIdx++) {
-		const Transformation& trans = m_transformation[transIdx];
-
-		LOGD("deneme-1");
-		Matrix44 glMat = trans.getInverted().getMat44();
-
-		glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
-
+		glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMatrix.data[0]));
+		/*
+		LOGD("%f - %f - %f - %f", glMatrix.data[0], glMatrix.data[1], glMatrix.data[2], glMatrix.data[3]);
+		LOGD("%f - %f - %f - %f", glMatrix.data[4], glMatrix.data[5], glMatrix.data[6], glMatrix.data[7]);
+		LOGD("%f - %f - %f - %f", glMatrix.data[8], glMatrix.data[9], glMatrix.data[10], glMatrix.data[11]);
+		LOGD("%f - %f - %f - %f", glMatrix.data[12], glMatrix.data[13], glMatrix.data[14], glMatrix.data[15]);
+		 */
 		glVertexPointer(2, GL_FLOAT, 0, squareVertices);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
@@ -266,32 +205,34 @@ void drawAR()
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		glDisableClientState(GL_COLOR_ARRAY);
 
-		float scale = 0.5;
+		float scale = 1.0;
 		glScalef(scale, scale, scale);
 
 		glTranslatef(0, 0, 0.1f);
-
-		int glErCode = glGetError();
-		if (glErCode != GL_NO_ERROR)
-			LOGD("GL error code = %d", glErCode);
 
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, lineX);
 		glDrawArrays(GL_LINES, 0, 2);
 
-		LOGD("deneme-2");
-
 		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, lineY);
-		glDrawArrays(GL_LINES, 0, 2);
+		glDrawArrays(GL_LINES, 0 , 2);
 
 		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, lineZ);
 		glDrawArrays(GL_LINES, 0, 2);
 	}
 
-
 	glPopMatrix();
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+void updateBackground(cv::Mat& input)
+{
+	setFrameBuffer();
+
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, input.cols, input.rows, 0, GL_RGBA, GL_UNSIGNED_BYTE, input.data);
+
+}

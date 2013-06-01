@@ -24,23 +24,47 @@ jint JNI_OnLoad(JavaVM* pVm, void *reserved)
 }
 
 void nativeInitGL20(JNIEnv* env, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr) {
+	glGenTextures(1, &m_backgroundTextureId);
+	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glEnable(GL_DEPTH_TEST);
+
+	setFrameBuffer();
 }
 
 void nativeSurfaceChanged(JNIEnv* env, jclass clazz, int width, int height) {
 
 }
 
-void nativeDrawGraphics(JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
+void drawFrame()
+{
+	setFrameBuffer();
+	drawBackground();
 
+	drawAR();
+
+	int glErCode = glGetError();
+	if (glErCode != GL_NO_ERROR) {
+		LOGD("error code: %x", glErCode);
+	}
+}
+
+void nativeDrawGraphics(JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
+	updateBackground(rgbaMat);
+	drawFrame();
 }
 
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(
 		JNIEnv *jenv, jclass,jlong imageRgba, jlong imageGray, jlong output) {
-	LOGD("Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect enter");
+	//LOGD("Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect enter");
 	Mat &inputMat = *(Mat *) imageGray;
 	Mat &outputMat = *(Mat *) output;
-	Mat &rgbaMat = *(Mat *) imageRgba;
+	rgbaMat = *(Mat *) imageRgba;
 
 	// image binarization
 	Mat threshold(inputMat.size(), inputMat.type());
@@ -81,7 +105,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	estimatePosition(detectedMarkers);
 
 	sort(detectedMarkers.begin(), detectedMarkers.end());
-
+/*
 	if (detectedMarkers.size() != 0) {
 
 		LOGD("rotation matrix.....");
@@ -97,7 +121,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 				"%f - %f - %f", detectedMarkers[0].transformation.t().data[0], detectedMarkers[0].transformation.t().data[1], detectedMarkers[0].transformation.t().data[2]);
 
 	}
-
+*/
 	m_transformation.clear();
 	for (size_t i = 0; i < detectedMarkers.size(); i++)
 		m_transformation.push_back(detectedMarkers[i].transformation);
@@ -107,7 +131,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	markerCorners2d.clear();
 	markerCorners3d.clear();
 
-	LOGD( "Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect exit");
+	//LOGD( "Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect exit");
 }
 
 void performThreshold(const Mat& grayscale, Mat& threshold) {
@@ -246,7 +270,7 @@ void recognizeMarkers(const cv::Mat& grayscale, MarkerVector& detectedMarkers) {
 
 		int nRotations;
 		int id = ARMarker::getMarkerId(canonicalMarkerImage, nRotations);
-		LOGD("marker id => %d", id);
+		//LOGD("marker id => %d", id);
 		if (id != -1) {
 			marker.id = id;
 

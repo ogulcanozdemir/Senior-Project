@@ -76,21 +76,15 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		view = new GLSurfaceView(getApplication());
-		new Thread(new Runnable() {
-			
-			@SuppressWarnings("deprecation")
-			@Override
-			public void run() {
-				view.setEGLContextClientVersion(2);
-				view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-				view.setZOrderOnTop(true);
-				renderer = new ARRenderer(getApplication());
-				view.setRenderer(renderer);
-				view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-				addContentView(view, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			}
-		}).start(); 
 		
+		//view.setEGLContextClientVersion(2);
+		view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+		view.setZOrderOnTop(true);
+		renderer = new ARRenderer(getApplication());
+		view.setRenderer(renderer);
+		view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
 		
 		//view = new ARSurfaceView(this);
 		//view.setZOrderOnTop(true);
@@ -148,6 +142,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		if (mMarkerDetector != null)
 			mMarkerDetector.detect(mRgba, mGray, output);
 		
-		return output;
+		return null;
 	}
 }

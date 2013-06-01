@@ -48,6 +48,8 @@ Size markerSize(100, 100);
 std::vector<cv::Point2f> markerCorners2d;
 Mat canonicalMarkerImage;
 
+Mat rgbaMat;
+
 Mat camMatrix = Mat(3, 3, CV_32F, const_cast<float*>(&calibration.getIntrinsic().data[0]));
 Mat distCoeff = Mat(4, 1, CV_32F, const_cast<float*>(&calibration.getDistorsion().data[0]));
 
