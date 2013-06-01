@@ -82,9 +82,9 @@ extern "C" {
 
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(JNIEnv *, jclass, jlong, jlong, jlong);
 
-void nativeInitGL20(JNIEnv* en, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr);
-void nativeDrawGraphics(JNIEnv* en, jclass clazz, float pAngleX, float pAngleY);
-void nativeSurfaceChanged(JNIEnv* en, jclass clazz, int width, int height);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(JNIEnv* en, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(JNIEnv* en, jclass clazz, float pAngleX, float pAngleY);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged(JNIEnv* en, jclass clazz, int width, int height);
 
 #ifdef __cplusplus
 }

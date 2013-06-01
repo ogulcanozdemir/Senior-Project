@@ -1,29 +1,6 @@
 #include <AugmentedReality.hpp>
 
-jint JNI_OnLoad(JavaVM* pVm, void *reserved)
-{
-	JNIEnv* env;
-	if (pVm->GetEnv((void **)&env, JNI_VERSION_1_6) != JNI_OK) {
-		return -1;
-	}
-
-	JNINativeMethod nm[4];
-	nm[0].name = "nativeInitGL20";
-	nm[0].signature = "(Ljava/lang/String;Ljava/lang/String;)V";
-	nm[0].fnPtr = (void *)nativeInitGL20;
-	nm[1].name = "nativeDrawGraphics";
-	nm[1].signature = "(FF)V";
-	nm[1].fnPtr = (void *)nativeDrawGraphics;
-	nm[2].name = "nativeSurfaceChanged";
-	nm[2].signature = "(II)V";
-	nm[2].fnPtr = (void *)nativeSurfaceChanged;
-
-	jclass cls = env->FindClass("com/augmentedreality/ARRenderer");
-	env->RegisterNatives(cls, nm, 3);
-	return JNI_VERSION_1_6;
-}
-
-void nativeInitGL20(JNIEnv* env, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr) {
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(JNIEnv* env, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr) {
 	glGenTextures(1, &m_backgroundTextureId);
 	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 
@@ -41,7 +18,7 @@ void nativeInitGL20(JNIEnv* env, jclass clazz, jstring vertexShaderStr, jstring 
 	glViewport(0, 0, width, height);
 }
 
-void nativeSurfaceChanged(JNIEnv* env, jclass clazz, int gwidth, int gheight) {
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged(JNIEnv* env, jclass clazz, int gwidth, int gheight) {
 	glViewport(0, 0, gwidth, gheight);
 	width = gwidth;
 	height = gheight;
@@ -61,7 +38,7 @@ void drawFrame()
 	}
 }
 
-void nativeDrawGraphics(JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
 	updateBackground(rgbaMat);
 	drawFrame();
 }
