@@ -32,20 +32,27 @@ void nativeInitGL20(JNIEnv* env, jclass clazz, jstring vertexShaderStr, jstring 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
+	glDisable(GL_DITHER);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepthf(1.0f);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 
-	setFrameBuffer();
+	glViewport(0, 0, width, height);
 }
 
-void nativeSurfaceChanged(JNIEnv* env, jclass clazz, int width, int height) {
-
+void nativeSurfaceChanged(JNIEnv* env, jclass clazz, int gwidth, int gheight) {
+	glViewport(0, 0, gwidth, gheight);
+	width = gwidth;
+	height = gheight;
 }
 
 void drawFrame()
 {
-	setFrameBuffer();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glViewport(0, 0, width, height);
 	drawBackground();
-
 	drawAR();
 
 	int glErCode = glGetError();

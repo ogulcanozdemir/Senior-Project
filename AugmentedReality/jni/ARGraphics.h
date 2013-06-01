@@ -24,8 +24,8 @@ GLuint defaultFrameBuffer, colorRenderBuffer, depthRenderBuffer;
 GLint width = 640;
 GLint height = 480;
 
-GLfloat w = (GLfloat) 640;
-GLfloat h = (GLfloat) 480;
+GLfloat w = (GLfloat) width;
+GLfloat h = (GLfloat) height;
 
 Matrix44 projectionMatrix;
 
@@ -80,44 +80,6 @@ void drawBackground()
 	glDisable(GL_TEXTURE_2D);
 }
 
-void createFrameBuffer()
-{
-	if (!defaultFrameBuffer) {
-		glGenFramebuffers(1, &defaultFrameBuffer);
-		glBindFramebuffer(GL_FRAMEBUFFER_OES, defaultFrameBuffer);
-
-		glGenRenderbuffers(1, &colorRenderBuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER_OES, colorRenderBuffer);
-
-		glGetRenderbufferParameteriv(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &width);
-		glGetRenderbufferParameteriv(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &height);
-
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, colorRenderBuffer);
-
-		glGenRenderbuffers(1, &depthRenderBuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER_OES, depthRenderBuffer);
-
-		glRenderbufferStorage(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, width, height);
-
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderBuffer);
-
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES)
-			LOGD("failed to make complete framebuffer %f", glCheckFramebufferStatus(GL_FRAMEBUFFER_OES));
-	}
-}
-
-void setFrameBuffer()
-{
-	/*
-	if (!defaultFrameBuffer)
-		createFrameBuffer();
-
-	glBindFramebuffer(GL_FRAMEBUFFER_OES, defaultFrameBuffer);
-	*/
-	glViewport(0, 0, width, height);
-
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-}
 
 void buildProjectionMatrix(ARCameraCalibration calibration, int width, int height, Matrix44& projectionMatrix)
 {
@@ -229,8 +191,7 @@ void drawAR()
 
 void updateBackground(cv::Mat& input)
 {
-	setFrameBuffer();
-
+	glViewport(0, 0, width, height);
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, input.cols, input.rows, 0, GL_RGBA, GL_UNSIGNED_BYTE, input.data);

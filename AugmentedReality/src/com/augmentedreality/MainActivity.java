@@ -78,20 +78,20 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		view = new GLSurfaceView(getApplication());
 		
 		//view.setEGLContextClientVersion(2);
-		view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-		view.setZOrderOnTop(true);
-		renderer = new ARRenderer(getApplication());
-		view.setRenderer(renderer);
-		view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-		addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		new Thread(new Runnable() {
 
+			@Override
+			public void run() {
+				view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+				view.setZOrderOnTop(true);
+				renderer = new ARRenderer(getApplication());
+				view.setRenderer(renderer);
+				view.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+				view.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+				addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			}
+		}).start();
 		
-		//view = new ARSurfaceView(this);
-		//view.setZOrderOnTop(true);
-		//addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		//setContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		//addContentView(R.layout.activity_main, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		//setContentView(R.layout.activity_main);
 		mCameraView = (CameraBridgeViewBase)findViewById(R.id.surface_view);
 		mCameraView.setCvCameraViewListener(this);
 		
@@ -141,6 +141,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		Mat output = new Mat(mGray.size(), mGray.type());
 		if (mMarkerDetector != null)
 			mMarkerDetector.detect(mRgba, mGray, output);
+		
+		view.requestRender();
 		
 		return null;
 	}
