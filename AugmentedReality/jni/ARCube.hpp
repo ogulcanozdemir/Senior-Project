@@ -9,16 +9,19 @@
 #define ARCUBE_HPP_
 
 #include <GLES2/gl2.h>
+#include <GLES/gl.h>
 
 class ARCube {
 
 private:
-	GLfloat vertices[108];
-	GLbyte 	indices[6];
+	GLfloat vertices[24];
+	GLfloat colors[32];
+	GLbyte 	indices[36];
 
 public:
-	ARCube(GLfloat[], GLbyte[]);
-	void draw(GLuint);
+	ARCube(GLfloat[], GLfloat[], GLbyte[]);
+	void draw();
+	void lightning();
 	virtual ~ARCube();
 
 };

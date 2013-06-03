@@ -1,6 +1,40 @@
 #include <AugmentedReality.hpp>
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(JNIEnv* env, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr) {
+GLfloat vertices[24] = {
+	-1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	1.0f,  1.0f, -1.0f,
+	-1.0f, 1.0f, -1.0f,
+	-1.0f, -1.0f,  1.0f,
+	1.0f, -1.0f,  1.0f,
+	1.0f,  1.0f,  1.0f,
+	-1.0f,  1.0f,  1.0f
+};
+
+GLfloat colors[32] = {
+	0.0f,  1.0f,  0.0f,  1.0f,
+	0.0f,  1.0f,  0.0f,  1.0f,
+	1.0f,  0.5f,  0.0f,  1.0f,
+	1.0f,  0.5f,  0.0f,  1.0f,
+	1.0f,  0.0f,  0.0f,  1.0f,
+	1.0f,  0.0f,  0.0f,  1.0f,
+	0.0f,  0.0f,  1.0f,  1.0f,
+	1.0f,  0.0f,  1.0f,  1.0f
+};
+
+GLbyte indices[36] = {
+	0, 4, 5, 0, 5, 1,
+	1, 5, 6, 1, 6, 2,
+	2, 6, 7, 2, 7, 3,
+	3, 7, 4, 3, 4, 0,
+	4, 7, 6, 4, 6, 5,
+	3, 0, 1, 3, 1, 2
+};
+
+ARCube mCube(vertices, colors, indices);
+
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(
+		JNIEnv* env, jclass clazz) {
 	glGenTextures(1, &m_backgroundTextureId);
 	glBindTexture(GL_TEXTURE_2D, m_backgroundTextureId);
 
@@ -18,33 +52,68 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(JNIEn
 	glViewport(0, 0, width, height);
 }
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged(JNIEnv* env, jclass clazz, int gwidth, int gheight) {
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged(
+		JNIEnv* env, jclass clazz, int gwidth, int gheight) {
 	glViewport(0, 0, gwidth, gheight);
+	float ratio = (float) width / height;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrthof(-ratio, ratio, -1, 1, -10, 10);
 	width = gwidth;
 	height = gheight;
 }
 
-void drawFrame()
-{
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
+		JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
+	updateBackground(rgbaMat);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, width, height);
 	drawBackground();
-	drawAR();
 
-	int glErCode = glGetError();
-	if (glErCode != GL_NO_ERROR) {
-		LOGD("error code: %x", glErCode);
+	buildProjectionMatrix(calibration, width, height, projectionMatrix);
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(projectionMatrix.data);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glDepthMask(TRUE);
+	glEnable(GL_DEPTH_TEST);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
+	glPushMatrix();
+
+	for (size_t transIdx = 0; transIdx < m_transformation.size(); transIdx++) {
+		const Transformation& transformation = m_transformation[transIdx];
+
+		Matrix44 glMat = transformation.getMat44();
+
+		glLoadMatrixf((GLfloat *)glMat.data);
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		//glNormalPointer(GL_FLOAT, 0, indices);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+
+		glScalef(0.5f, 0.5f, 0.5f);
+		glTranslatef(0, 0, 0.1f);
+
+		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+		//glDisableClientState(GL_VERTEX_ARRAY);
+		//glColorPointer(2, GL_FLOAT, 0, colors);
+		//glEnableClientState(GL_COLOR_ARRAY);
 	}
-}
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
-	updateBackground(rgbaMat);
-	drawFrame();
+	glPopMatrix();
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(
-		JNIEnv *jenv, jclass,jlong imageRgba, jlong imageGray, jlong output) {
+		JNIEnv *jenv, jclass, jlong imageRgba, jlong imageGray, jlong output) {
 	//LOGD("Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect enter");
 	Mat &inputMat = *(Mat *) imageGray;
 	Mat &outputMat = *(Mat *) output;
@@ -81,7 +150,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	recognizeMarkers(inputMat, detectedMarkers);
 	outputMat = rgbaMat.clone();
 	for (size_t i = 0; i < detectedMarkers.size(); i++) {
-		detectedMarkers[i].drawContour(outputMat, cvScalar(250, 0, 0));
+		detectedMarkers[i].drawContour(rgbaMat, cvScalar(250, 0, 0));
 		//detectedMarkers[i].drawContour(inputMat, cvScalar(250, 0, 0));
 	}
 
@@ -89,26 +158,28 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	estimatePosition(detectedMarkers);
 
 	sort(detectedMarkers.begin(), detectedMarkers.end());
-/*
-	if (detectedMarkers.size() != 0) {
+	/*
+	 if (detectedMarkers.size() != 0) {
 
-		LOGD("rotation matrix.....");
-		LOGD(
-				"%f - %f - %f", detectedMarkers[0].transformation.r().matrix[0][0], detectedMarkers[0].transformation.r().matrix[0][1], detectedMarkers[0].transformation.r().matrix[0][2]);
-		LOGD(
-				"%f - %f - %f", detectedMarkers[0].transformation.r().matrix[1][0], detectedMarkers[0].transformation.r().matrix[1][1], detectedMarkers[0].transformation.r().matrix[1][2]);
-		LOGD(
-				"%f - %f - %f", detectedMarkers[0].transformation.r().matrix[2][0], detectedMarkers[0].transformation.r().matrix[2][1], detectedMarkers[0].transformation.r().matrix[2][2]);
+	 LOGD("rotation matrix.....");
+	 LOGD(
+	 "%f - %f - %f", detectedMarkers[0].transformation.r().matrix[0][0], detectedMarkers[0].transformation.r().matrix[0][1], detectedMarkers[0].transformation.r().matrix[0][2]);
+	 LOGD(
+	 "%f - %f - %f", detectedMarkers[0].transformation.r().matrix[1][0], detectedMarkers[0].transformation.r().matrix[1][1], detectedMarkers[0].transformation.r().matrix[1][2]);
+	 LOGD(
+	 "%f - %f - %f", detectedMarkers[0].transformation.r().matrix[2][0], detectedMarkers[0].transformation.r().matrix[2][1], detectedMarkers[0].transformation.r().matrix[2][2]);
 
-		LOGD("translation matrix...");
-		LOGD(
-				"%f - %f - %f", detectedMarkers[0].transformation.t().data[0], detectedMarkers[0].transformation.t().data[1], detectedMarkers[0].transformation.t().data[2]);
+	 LOGD("translation matrix...");
+	 LOGD(
+	 "%f - %f - %f", detectedMarkers[0].transformation.t().data[0], detectedMarkers[0].transformation.t().data[1], detectedMarkers[0].transformation.t().data[2]);
 
-	}
-*/
+	 }
+	 */
 	m_transformation.clear();
 	for (size_t i = 0; i < detectedMarkers.size(); i++)
 		m_transformation.push_back(detectedMarkers[i].transformation);
+
+
 
 	// clearing vectors for next frame
 	detectedMarkers.clear();

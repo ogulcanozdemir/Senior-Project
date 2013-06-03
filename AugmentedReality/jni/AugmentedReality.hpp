@@ -16,6 +16,7 @@
 #include <ARLocal.h>
 #include <ARCube.hpp>
 #include <ARMatrix.h>
+#include "cube.h"
 
 #ifndef AUGMENTEDREALITY_HPP_
 #define AUGMENTEDREALITY_HPP_
@@ -57,7 +58,7 @@ float mCubeRotation;
 
 //////////////////// Function Prototypes ///////////////////
 ////////////////////////////////////////////////////////////
-
+void drawCube();
 // performs threshold with THRESH_BINARY_INV
 //		or adaptive threshold with ADAPTIVE_THRESH_GAUSSIAN_C and THRESH_BINARY_INV
 // to grayscale image
@@ -82,7 +83,7 @@ extern "C" {
 
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDetect(JNIEnv *, jclass, jlong, jlong, jlong);
 
-JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(JNIEnv* en, jclass clazz, jstring vertexShaderStr, jstring fragmentShaderStr);
+JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeInitGL20(JNIEnv* en, jclass clazz);
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(JNIEnv* en, jclass clazz, float pAngleX, float pAngleY);
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged(JNIEnv* en, jclass clazz, int width, int height);
 

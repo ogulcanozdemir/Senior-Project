@@ -126,7 +126,8 @@
  /Users/oulcan/Documents/Development/android-ndk/platforms/android-14/arch-arm/usr/include/GLES2/gl2ext.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARLocal.h \
  /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARCube.hpp \
- /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMatrix.h
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMatrix.h \
+ /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/cube.h
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/AugmentedReality.hpp:
 
@@ -381,3 +382,5 @@
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARCube.hpp:
 
 /Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/ARMatrix.h:
+
+/Users/oulcan/Documents/Development/git/bitirme/AugmentedReality/jni/cube.h:

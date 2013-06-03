@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 public class MainActivity extends Activity implements CvCameraViewListener2 {
 
@@ -75,9 +74,9 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 		
 		
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
-		view = new GLSurfaceView(getApplication());
-		
-		//view.setEGLContextClientVersion(2);
+		view = new ARSurfaceView(getApplication());
+		/*
+		view.setEGLContextClientVersion(2);
 		new Thread(new Runnable() {
 
 			@Override
@@ -91,6 +90,9 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 				addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
 		}).start();
+		
+		*/
+		addContentView(view, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		
 		mCameraView = (CameraBridgeViewBase)findViewById(R.id.surface_view);
 		mCameraView.setCvCameraViewListener(this);
@@ -143,7 +145,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 			mMarkerDetector.detect(mRgba, mGray, output);
 		
 		view.requestRender();
-		
+				
 		return null;
 	}
 }

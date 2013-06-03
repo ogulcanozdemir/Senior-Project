@@ -14,12 +14,13 @@ public class ARSurfaceView extends GLSurfaceView {
 
 	public ARSurfaceView(Context context) {
 		super(context);
-		this.setEGLContextClientVersion(2);
+		
 		this.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-		this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+		this.setZOrderOnTop(true);
 		mRenderer = new ARRenderer(context);
 		this.setRenderer(mRenderer);
 		this.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		this.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 	}
 	
 	

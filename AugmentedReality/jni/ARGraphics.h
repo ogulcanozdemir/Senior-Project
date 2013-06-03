@@ -11,8 +11,8 @@
 #include <GLES/glext.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
-#include <GLES2/gl2platform.h>
 #include <GLES/glplatform.h>
+#include <GLES2/gl2platform.h>
 
 #define DEBUG 0
 #define LOG_TAG "ARGraphics"
@@ -85,11 +85,18 @@ void buildProjectionMatrix(ARCameraCalibration calibration, int width, int heigh
 {
 	float near = 0.01;
 	float far = 100;
-
+/*
 	float f_x = calibration.m_intrinsic.matrix[0][0];
 	float f_y = calibration.m_intrinsic.matrix[1][1];
 	float c_x = calibration.m_intrinsic.matrix[0][2];
 	float c_y = calibration.m_intrinsic.matrix[1][2];
+*/
+	float f_x = calibration.getIntrinsic().data[0];
+	float f_y = calibration.getIntrinsic().data[4];
+	float c_x = calibration.getIntrinsic().data[2];
+	float c_y = calibration.getIntrinsic().data[5];
+
+	LOGD("f_x => %f\nf_y => %f\nc_x => %f\nc_y =>%f", f_x, f_y, c_x, c_y);
 
 	projectionMatrix.data[0] = -2.0 * f_x / width;
 	projectionMatrix.data[1] = 0.0;

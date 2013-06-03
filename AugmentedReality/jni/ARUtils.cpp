@@ -138,7 +138,7 @@ Matrix44 Transformation::getMat44() const
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++)
-			mat.matrix[j][j] = m_rotation.matrix[j][i];
+			mat.matrix[j][i] = m_rotation.matrix[j][i];
 
 		mat.matrix[3][i] = m_translation.data[i];
 	}
