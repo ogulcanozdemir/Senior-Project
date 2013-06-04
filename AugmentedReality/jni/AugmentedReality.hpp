@@ -38,9 +38,7 @@ typedef vector<ARMarker> MarkerVector;
 //#define LOG_TAG "AugmentedReality/native"
 #define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__))
 
-#define FOCAL_LENGTH 566.3732637783295
 #define CUBE_SIZE 10
-
 
 //////////////////// Global variables //////////////////////
 ////////////////////////////////////////////////////////////
@@ -48,7 +46,6 @@ std::vector<cv::Point3f> markerCorners3d;
 Size markerSize(100, 100);
 std::vector<cv::Point2f> markerCorners2d;
 Mat canonicalMarkerImage;
-
 Mat rgbaMat;
 
 Mat camMatrix = Mat(3, 3, CV_32F, const_cast<float*>(&calibration.getIntrinsic().data[0]));

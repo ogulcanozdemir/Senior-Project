@@ -92,15 +92,30 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 
 		Matrix44 glMat = transformation.getMat44();
 
-		glLoadMatrixf((GLfloat *)glMat.data);
+		//glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
+		glMultMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
+
+		LOGD("%f - %f - %f - %f", glMat.data[0], glMat.data[1], glMat.data[2], glMat.data[3]);
+		LOGD("%f - %f - %f - %f", glMat.data[4], glMat.data[5], glMat.data[6], glMat.data[7]);
+		LOGD("%f - %f - %f - %f", glMat.data[8], glMat.data[9], glMat.data[10], glMat.data[11]);
+		LOGD("%f - %f - %f - %f", glMat.data[12], glMat.data[13], glMat.data[14], glMat.data[15]);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, vertices);
+		glVertexPointer(3, GL_FLOAT, 0, cubeVerts);
+		//LOGD("x => %f + y => %f", detectedMarkers[0].points[0].x, detectedMarkers[0].points[0].y);
+		glNormalPointer(GL_FLOAT, 0, cubeNormals);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//glScalef(0.5f, 0.5f, 0.5f);
+		glTranslatef(-(glMat.data[12]), glMat.data[13], glMat.data[14]);
+		//glRotatef()
+
+		//glVertexPointer(3, GL_FLOAT, 0, vertices);
 		//glNormalPointer(GL_FLOAT, 0, indices);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
+		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
 
 		glScalef(0.5f, 0.5f, 0.5f);
-		glTranslatef(0, 0, 0.1f);
+		//glTranslatef(0, 0, 0.1f);
 
 		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
 		//glDisableClientState(GL_VERTEX_ARRAY);
@@ -155,6 +170,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 	}
 
 	// pose estimation
+
 	estimatePosition(detectedMarkers);
 
 	sort(detectedMarkers.begin(), detectedMarkers.end());
@@ -380,10 +396,13 @@ void estimatePosition(MarkerVector& detectedMarkers) {
 		Mat_<float> rotationMat(3, 3);
 		cv::Rodrigues(Rvec, rotationMat);
 
+		marker.transformation = Transformation();
+
 		for (int col = 0; col < 3; col++) {
 			for (int row = 0; row < 3; row++) {
 				marker.transformation.r().matrix[row][col] = rotationMat(row,
 						col);
+
 			}
 
 			marker.transformation.t().data[col] = Tvec(col);
