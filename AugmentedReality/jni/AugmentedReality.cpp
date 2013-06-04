@@ -66,7 +66,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 		JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
 	updateBackground(rgbaMat);
-
+	rgbaMat.release();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, width, height);
@@ -86,41 +86,79 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 	glEnableClientState(GL_NORMAL_ARRAY);
 
 	glPushMatrix();
+	glLineWidth(3.0f);
+
+	float lineX[] = {0,0,0,1,0,0};
+	float lineY[] = {0,0,0,0,1,0};
+	float lineZ[] = {0,0,0,0,0,1};
+
+	const GLfloat squareVertices[] = {
+			-0.5f, -0.5f,
+			0.5f, -0.5f,
+			-0.5f, 0.5f,
+			0.5f, 0.5f
+	};
+
+	const GLubyte squareColors[] = {
+			255, 255, 0, 255,
+			0, 255, 255, 255,
+			0, 0, 0, 0,
+			255, 0, 255, 255
+	};
 
 	for (size_t transIdx = 0; transIdx < m_transformation.size(); transIdx++) {
 		const Transformation& transformation = m_transformation[transIdx];
 
 		Matrix44 glMat = transformation.getMat44();
 
-		//glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
-		glMultMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
+		glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
+		//glMultMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
 
-		LOGD("%f - %f - %f - %f", glMat.data[0], glMat.data[1], glMat.data[2], glMat.data[3]);
-		LOGD("%f - %f - %f - %f", glMat.data[4], glMat.data[5], glMat.data[6], glMat.data[7]);
-		LOGD("%f - %f - %f - %f", glMat.data[8], glMat.data[9], glMat.data[10], glMat.data[11]);
-		LOGD("%f - %f - %f - %f", glMat.data[12], glMat.data[13], glMat.data[14], glMat.data[15]);
-
+		/*
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, cubeVerts);
 		//LOGD("x => %f + y => %f", detectedMarkers[0].points[0].x, detectedMarkers[0].points[0].y);
 		glNormalPointer(GL_FLOAT, 0, cubeNormals);
+		glTranslatef(0.0, 0.0, 0.1f);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		//glScalef(0.5f, 0.5f, 0.5f);
-		glTranslatef(-(glMat.data[12]), glMat.data[13], glMat.data[14]);
-		//glRotatef()
 
 		//glVertexPointer(3, GL_FLOAT, 0, vertices);
 		//glNormalPointer(GL_FLOAT, 0, indices);
 		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
 
 		glScalef(0.5f, 0.5f, 0.5f);
-		//glTranslatef(0, 0, 0.1f);
-
+		//glTranslatef(- glMat.data[12], glMat.data[13], glMat.data[14]);
+		glTranslatef(0, 0, 0.1f);
+*/
 		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
 		//glDisableClientState(GL_VERTEX_ARRAY);
 		//glColorPointer(2, GL_FLOAT, 0, colors);
 		//glEnableClientState(GL_COLOR_ARRAY);
+
+		glVertexPointer(2, GL_FLOAT, 0, squareVertices);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
+		glEnableClientState(GL_COLOR_ARRAY);
+
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDisableClientState(GL_COLOR_ARRAY);
+
+		float scale = 0.5;
+		glScalef(scale, scale, scale);
+
+		glTranslatef(0, 0, 0.1f);
+
+		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		glVertexPointer(3, GL_FLOAT, 0, lineX);
+		glDrawArrays(GL_LINES, 0, 2);
+
+		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+		glVertexPointer(3, GL_FLOAT, 0, lineY);
+		glDrawArrays(GL_LINES, 0, 2);
+
+		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		glVertexPointer(3, GL_FLOAT, 0, lineZ);
+		glDrawArrays(GL_LINES, 0, 2);
 	}
 
 	glPopMatrix();
@@ -196,7 +234,8 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 		m_transformation.push_back(detectedMarkers[i].transformation);
 
 
-
+	inputMat.release();
+	outputMat.release();
 	// clearing vectors for next frame
 	detectedMarkers.clear();
 	markerCorners2d.clear();

@@ -60,7 +60,7 @@ Matrix44 Matrix44::getInvertedRT() const
 
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++)
-			mat.matrix[j][j] = matrix[i][j];
+			mat.matrix[j][i] = matrix[i][j];
 
 		mat.matrix[3][i] = - matrix[3][i];
 	}
@@ -140,13 +140,8 @@ Matrix44 Transformation::getMat44() const
 		for (int j = 0; j < 3; j++)
 			mat.matrix[j][i] = m_rotation.matrix[j][i];
 
-		//mat.matrix[3][i] = m_translation.data[i];
+		mat.matrix[3][i] = m_translation.data[i];
 	}
-
-	mat.matrix[3][0] = m_translation.data[0];
-	mat.matrix[3][1] = m_translation.data[1];
-	mat.matrix[3][2] = m_translation.data[2];
-	mat.matrix[3][3] = 1.0;
 
 	return mat;
 }
