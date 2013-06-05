@@ -143,6 +143,8 @@ Matrix44 Transformation::getMat44() const
 		mat.matrix[3][i] = m_translation.data[i];
 	}
 
+	mat.matrix[3][0] *= -1;
+
 	return mat;
 }
 

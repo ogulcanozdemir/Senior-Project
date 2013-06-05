@@ -66,7 +66,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeSurfaceChanged
 JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 		JNIEnv* env, jclass clazz, float pAngleX, float pAngleY) {
 	updateBackground(rgbaMat);
-	rgbaMat.release();
+	//rgbaMat.release();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, width, height);
@@ -114,7 +114,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 		glLoadMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
 		//glMultMatrixf(reinterpret_cast<const GLfloat*>(&glMat.data[0]));
 
-		/*
+
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, cubeVerts);
 		//LOGD("x => %f + y => %f", detectedMarkers[0].points[0].x, detectedMarkers[0].points[0].y);
@@ -128,13 +128,12 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 
 		glScalef(0.5f, 0.5f, 0.5f);
 		//glTranslatef(- glMat.data[12], glMat.data[13], glMat.data[14]);
-		glTranslatef(0, 0, 0.1f);
-*/
+
 		//glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
 		//glDisableClientState(GL_VERTEX_ARRAY);
 		//glColorPointer(2, GL_FLOAT, 0, colors);
 		//glEnableClientState(GL_COLOR_ARRAY);
-
+/*
 		glVertexPointer(2, GL_FLOAT, 0, squareVertices);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
@@ -146,7 +145,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 		float scale = 0.5;
 		glScalef(scale, scale, scale);
 
-		glTranslatef(0, 0, 0.1f);
+		//glTranslatef(0, 0, 0.1f);
 
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, lineX);
@@ -159,6 +158,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARRenderer_nativeDrawGraphics(
 		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 		glVertexPointer(3, GL_FLOAT, 0, lineZ);
 		glDrawArrays(GL_LINES, 0, 2);
+		*/
 	}
 
 	glPopMatrix();
@@ -427,8 +427,8 @@ void estimatePosition(MarkerVector& detectedMarkers) {
 		Mat_<float> Tvec;
 		Mat raux, taux;
 
-		cv::solvePnP(markerCorners3d, marker.points, camMatrix, distCoeff, raux,
-				taux);
+		//solvePnP(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
+		solvePnPRansac(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
 		raux.convertTo(Rvec, CV_32F);
 		taux.convertTo(Tvec, CV_32F);
 

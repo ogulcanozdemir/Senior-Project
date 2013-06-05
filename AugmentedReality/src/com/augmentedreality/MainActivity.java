@@ -145,7 +145,10 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 			mMarkerDetector.detect(mRgba, mGray, output);
 		
 		view.requestRender();
-				
+		
+		//mRgba.release();
+		mGray.release();
+		output.release();
 		return null;
 	}
 }
