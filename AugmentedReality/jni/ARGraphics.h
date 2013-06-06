@@ -116,7 +116,7 @@ void buildProjectionMatrix(ARCameraCalibration calibration, int width, int heigh
 	projectionMatrix.data[14] = -2.0 * far * near / (far - near);
 	projectionMatrix.data[15] = 0.0;
 	*/
-	projectionMatrix.data[0] = 2.0 * f_x / width;
+	projectionMatrix.data[0] = - 2.0 * f_x / width;
 	projectionMatrix.data[1] = 0.0;
 	projectionMatrix.data[2] = 0.0;
 	projectionMatrix.data[3] = 0.0;

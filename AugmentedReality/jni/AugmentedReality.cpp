@@ -427,24 +427,29 @@ void estimatePosition(MarkerVector& detectedMarkers) {
 		Mat Rvec;
 		Mat_<float> Tvec;
 		Mat raux, taux;
+		Mat raux2, taux2;
 
 		//solvePnP(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
 		solvePnPRansac(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
 
 		LOGD("rotation vector");
-		raux.at<double>(1,1) = -1 * raux.at<double>(1,1);
-		//raux.at<double>(2,1) = -1 * raux.at<double>(2,1);
-		//raux.at<double>(3,1) = -1 * raux.at<double>(3,1);
+		for (int i = 0; i < raux.rows; i++)
+			for (int j = 0; j < raux.cols; j++) {
+				LOGD("[%d][%d] => %f", i, j, raux.at<double>(i,j));
+			}
+
+		//raux.at<double>(0,0) = -1 * raux.at<double>(0,0);
+		//raux.at<double>(1,0) = -1 * raux.at<double>(1,0);
+		//raux.at<double>(2,0) = -1 * raux.at<double>(2,0);
 
 		LOGD("translation vector");
 		for (int i = 0; i < taux.rows; i++)
 			for (int j = 0; j < taux.cols; j++) {
-				LOGD("[%d][%d] => %f", taux.rows, taux.cols, taux.at<double>(i,j));
+				LOGD("[%d][%d] => %f", i, j, taux.at<double>(i,j));
 			}
 
 		raux.convertTo(Rvec, CV_32F);
 		taux.convertTo(Tvec, CV_32F);
-
 
 		Mat_<float> rotationMat(3, 3);
 		cv::Rodrigues(Rvec, rotationMat);
