@@ -199,6 +199,7 @@ JNIEXPORT void JNICALL Java_com_augmentedreality_ARMarkerDetector_nativeMarkerDe
 			Point2f(markerSize.width - 1, markerSize.height - 1));
 	markerCorners2d.push_back(Point2f(0, markerSize.height - 1));
 
+
 	// recognize marker from marker candidates
 	recognizeMarkers(inputMat, detectedMarkers);
 	outputMat = rgbaMat.clone();
@@ -380,7 +381,7 @@ void recognizeMarkers(const cv::Mat& grayscale, MarkerVector& detectedMarkers) {
 
 		int nRotations;
 		int id = ARMarker::getMarkerId(canonicalMarkerImage, nRotations);
-		//LOGD("marker id => %d", id);
+		LOGD("marker id => %d", id);
 		if (id != -1) {
 			marker.id = id;
 
@@ -429,8 +430,21 @@ void estimatePosition(MarkerVector& detectedMarkers) {
 
 		//solvePnP(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
 		solvePnPRansac(markerCorners3d, marker.points, camMatrix, distCoeff, raux, taux);
+
+		LOGD("rotation vector");
+		raux.at<double>(1,1) = -1 * raux.at<double>(1,1);
+		//raux.at<double>(2,1) = -1 * raux.at<double>(2,1);
+		//raux.at<double>(3,1) = -1 * raux.at<double>(3,1);
+
+		LOGD("translation vector");
+		for (int i = 0; i < taux.rows; i++)
+			for (int j = 0; j < taux.cols; j++) {
+				LOGD("[%d][%d] => %f", taux.rows, taux.cols, taux.at<double>(i,j));
+			}
+
 		raux.convertTo(Rvec, CV_32F);
 		taux.convertTo(Tvec, CV_32F);
+
 
 		Mat_<float> rotationMat(3, 3);
 		cv::Rodrigues(Rvec, rotationMat);

@@ -68,9 +68,7 @@ int ARMarker::hammDistMarker(cv::Mat bits)
 int ARMarker::mat2id(const cv::Mat &bits)
 {
 	int val = 0;
-	for (int y = 0; y < 5
-
-	; y++) {
+	for (int y = 0; y < 5; y++) {
 		val <<= 1;
 
 		if (bits.at<uchar>(y,1))
